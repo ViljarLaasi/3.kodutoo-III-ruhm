@@ -9,19 +9,18 @@ function cleanInput($data) {
   	$data = htmlspecialchars($data);
   	return $data;
   }
+  
   //ühenduse kontroll
  if(!$mysqli){
 	  die('Andmebaasiga Ühendamine ebaõnnestus, veateade: ' . mysql_error());
  }
  //kui kõik peaks millegipärast õnnestuma lõpuks.
- if (isset($_SESSION['username'])){
+ if(isset($_GET['action']) and $_GET['action'] === 'redigeeri'){
+	 require 'redigeeri.php ';
+	 
+	 }elseif (isset($_SESSION['username'])){
 	 echo'Tere, ' .$_SESSION['username'] .'!';
 	 require 'db_data.php';
-	 
-	 
-	//kontrollime kas kasutaja soovib registreerida. 
- }elseif(isset($_GET['action']) and $_GET['action'] === 'registreeri'){
-	 require 'register.php';
  }else{
 	 require 'login.php';
  }

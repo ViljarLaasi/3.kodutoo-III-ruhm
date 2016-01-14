@@ -85,7 +85,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 	<input name="ristit" type="number" placeholder="Kaks ristit" value="<?php if(isset($input['ristit'])){echo $input['ristit'];} ?>">
 	<br><br>
 	<input type="submit" name="create" value="Lae Andmed">
-  	
+	<a href="redigeeri.php">Siin saad registreerida</a>
   </form>
 <body>
 <html>
