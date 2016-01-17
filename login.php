@@ -76,7 +76,7 @@ if($show_form){
   	<input type="submit" value="Log In">
 	<br>
 	
-	<a href="index.php?action=registreeri">Siin saad registreerida</a>
+	<a href="index.php?action=register">Siin saad registreerida</a>
 	
   </form>
 <body>

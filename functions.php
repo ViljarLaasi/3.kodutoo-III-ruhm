@@ -19,7 +19,7 @@ function update_entry($id, $name, $voit, $kaotus, $vslamm, $ssamm, $ristit){
 	
 			$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME) ; 
 		
-		$stmt = $mysqli->prepare("UPDATE users2 SET name=?, voit=?, kaotus=?, vslamm=?, ssamm=?, ristit=? WHERE ID=?");
+		$stmt = $mysqli->prepare("UPDATE users2 SET name=?, voit=?, kaotus=?, vslamm=?, ssamm=?, ristit=?, time=now() WHERE ID=?");
 		if(!$stmt){
 			die("juhtus viga update_entry".$mysqli->error);
 		}
@@ -44,12 +44,12 @@ function get_Data($keyword=""){
 		
 		
 			$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME) ; 				
-		$stmt = $mysqli->prepare("SELECT ID, name, voit, kaotus, vslamm, ssamm, ristit from users2 WHERE del IS NULL AND name LIKE ? ");
+		$stmt = $mysqli->prepare("SELECT ID, name, voit, kaotus, vslamm, ssamm, ristit, time from users2 WHERE del IS NULL AND name LIKE ?  ");
 		if(!$stmt){
 			die("juhtus viga get_Data".$mysqli->error);
 		}
 		$stmt->bind_param("s", $search);
-		$stmt->bind_result($id, $name, $voit, $kaotus, $vslamm, $ssamm, $ristit);
+		$stmt->bind_result($id, $name, $voit, $kaotus, $vslamm, $ssamm, $ristit, $aeg);
 		$stmt->execute();
 		
 		// tekitan tühja massiivi, kus edaspidi hoian objekte
@@ -68,6 +68,7 @@ function get_Data($keyword=""){
 			$data->vslamm = $vslamm;
 			$data->ssamm = $ssamm;
 			$data->ristit = $ristit;
+			$data->aeg = $aeg;
 		
 			//lisan massiivi ühe rea juurde
 			array_push($data_array, $data);
@@ -100,6 +101,7 @@ function getEditData($id){
 			$data->ssamm = $ssamm;
 			$data->ristit = $ristit;
 			
+			
 		}else{
 			// ei saanud
 			// id ei olnud olemas, id=123123123
@@ -116,8 +118,12 @@ function getEditData($id){
 	}
 function update_data($id, $name, $voit, $kaotus, $vslamm, $ssamm, $ristit){
 		
+		
 		$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME) ;
-		$stmt = $mysqli->prepare("UPDATE users2 SET name=?, voit=?, kaotus=?, vslamm=?, ssamm=?, ristit=? WHERE id=?");
+		$stmt = $mysqli->prepare("UPDATE users2 SET name=?, voit=?, kaotus=?, vslamm=?, ssamm=?, ristit=?, time=now() WHERE id=? ");
+		if(!$stmt){
+			die("juhtus viga get_Data".$mysqli->error);
+		}
 		$stmt->bind_param("ssssssi", $name, $voit, $kaotus, $vslamm, $ssamm, $ristit, $id);
 		if($stmt->execute()){
 			// sai uuendatud

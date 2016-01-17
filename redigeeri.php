@@ -26,7 +26,7 @@ if(isset($msqly)){
  
 		// kas kustutame
 	if(isset($_GET["delete"])){
-		echo "Kustutame id ".$_GET["delete"];
+		//echo "Kustutame id ".$_GET["delete"];
 		//käivitan funktsiooni, saadan kaasa id!
 		delete_entry($_GET["delete"]);
 	}
@@ -35,14 +35,15 @@ if(isset($msqly)){
 		
 		update_entry($_POST["id"], $input['name'], $input['voit'], $input['kaotus'], $input['vslamm'], $input['ssamm'], $input['ristit']);
 	}
-$keyword = "";
+	$keyword = "";
+	$id= "";
 	
 	//aadressireal on keyword
 	if(isset($_GET["keyword"])){
 		
 		//otsin
 		$keyword = $_GET["keyword"];
-		$data_array = get_Data($keyword);
+		$data_array = get_Data($keyword,$id);
 		
 	}else{
 		
@@ -71,32 +72,36 @@ $keyword = "";
 		<th>Väikse slämm</th>
 		<th>Suur slämm</th>
 		<th>Kaks ristit</th>
+		<th>Lisamis aeg</th>
 		<th>Kustuta</th>
 		<th>Muuda</th>
 	</tr>
 	<?php
+	$voite ="" ;
+	$kaotus ="";
+	$vslamm ="";
+	$ssamm ="";
+	$ristit="";
+	$name="";
 		// trükime välja read
 		// massiivi pikkus count()
 		for($i = 0; $i < count($data_array); $i++){
 			
 			//kasutaja tahab muuta seda rida
-			if(isset($_GET["edit"]) && $data_array[$i]->id == $_GET["edit"]){
+			//if(isset($_GET["edit"]) && $data_array[$i]->id == $_GET["edit"]){
 				
-				echo "<tr>";
-				echo "<form action='redigeeri.php' method='post'>";
-				echo "<input type='hidden' name='id' value='".$data_array[$i]->id."'>";
-				echo "<td><input name='name' value='".$data_array[$i]->name."'></td>";
-				echo "<td><input name='voit' value='".$data_array[$i]->voit."'></td>";
-				echo "<td><input name='kaotus' value='".$data_array[$i]->kaotus."'></td>";
-				echo "<td><input name='vslamm' value='".$data_array[$i]->vslamm."'></td>";
-				echo "<td><input name='ssamm' value='".$data_array[$i]->ssamm."'></td>";
-				echo "<td><input name='ristit' value='".$data_array[$i]->ristit."'></td>";
-				echo "<td><a href='redigeeri.php'>cancel</a></td>";
-				echo "<td><input type='submit' name='save'></td>";
-				echo "</form>";
-				echo "</tr>";
 				
-			}else{
+			
+				
+			//}else{
+				
+				$voite = $voite + $data_array[$i]->voit;
+				$kaotus= $kaotus + $data_array[$i]->kaotus;
+				$vslamm= $vslamm + $data_array[$i]->vslamm;
+				$ssamm= $ssamm + $data_array[$i]->ssamm;
+				$ristit= $ristit + $data_array[$i]->ristit;
+				$name=$data_array[$i]->name;
+				
 				
 				echo "<tr>";
 				echo "<td>".$data_array[$i]->id."</td>";
@@ -106,15 +111,29 @@ $keyword = "";
 				echo "<td>".$data_array[$i]->vslamm."</td>";
 				echo "<td>".$data_array[$i]->ssamm."</td>";
 				echo "<td>".$data_array[$i]->ristit."</td>";
+				echo "<td>".$data_array[$i]->aeg."</td>";
 				echo "<td><a href='?delete=".$data_array[$i]->id."'>Kustuta</a></td>";
 				echo "<td><a href='edit.php?edit_id=".$data_array[$i]->id."'>Muuda</a></td>";
 				echo "</tr>";
 				
+			//}
 			}
-			
-		}
-	
-	
+			if ($keyword){
+		echo"<tr>";
+		echo"<tr>";
+		echo "<th colspan='10'>Tulemused kokku<th>";
+		echo"</tr>";
+		echo "<td>";
+		echo "<td><span style='text-transform:uppercase'>".$name."</span></td>";
+		echo "<td><span style='color:red' >".$voite."</span></td>";
+		echo "<td><span style='color:red' >".$kaotus."</span></td>";
+		echo "<td><span style='color:red' >".$vslamm."</span></td>";
+		echo "<td><span style='color:red' >".$ssamm."</span></td>";
+		echo "<td><span style='color:red' >".$ristit."</span></td>";
+		echo"</tr>";
+			}	
+		
+
 	?>
 
 

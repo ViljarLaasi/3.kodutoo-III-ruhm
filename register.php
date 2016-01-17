@@ -1,18 +1,18 @@
 <?php
 if(isset($msqly)){
-	die('PÃ¼Ã¼ad mind hÃ¤kkida');
+	die('Püüad mind häkkida');
 }
 $errors = array();
 $input = array();
 $show_form = True;
 if($_SERVER["REQUEST_METHOD"] == "POST") {
-	//defineerime array ja kÃ¤ime kogu tsÃ¼kli lÃ¤bi muutujan fild for loop.
+	//defineerime array ja käime kogu tsükli läbi muutujan fild for loop.
 	foreach(array('username', 'password','firstname','lastname','phone') as $field){
 	
 			if ( empty($_POST[$field]) ) { //pole infot saatnud
-				$errors[$field] = "See vÃ¤li on kohustuslik";
+				$errors[$field] = "See väli on kohustuslik";
 			}else{
-			// puhastame muutuja vÃµimalikest Ã¼leliigsetest sÃ¼mbolitest
+			// puhastame muutuja võimalikest üleliigsetest sümbolitest
 				$input[$field] = cleanInput($_POST[$field]);
 			}
 		}
@@ -20,7 +20,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 			
 				$hash = hash("sha512", $input['password']);
 					
-					//echo "VÃµib kasutajat luua! Kasutajanimi on ".$input['username']." ja parool on ".$input['password']." ja rÃ¤si on ".$hash;
+					//echo "Võib kasutajat luua! Kasutajanimi on ".$input['username']." ja parool on ".$input['password']." ja räsi on ".$hash;
 					
 					//Salvestame AB'i
 					$stmt = $mysqli->prepare("INSERT INTO users (email, password, first, last, phone) VALUES (?,?,?,?,?)");
@@ -28,7 +28,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 					//echo $stmt->error;
 					
 					
-					// asendame ? mÃ¤rgid, ss - s on string email, s on string password
+					// asendame ? märgid, ss - s on string email, s on string password
 					$stmt->bind_param("sssss", $input['username'], $hash,$input['firstname'],$input['lastname'],$input['phone']);
 					$stmt->execute();
 					$stmt->close();
@@ -51,7 +51,7 @@ if($show_form){
   <title>Register</title>
 </head>
 <body>
-	<h2>Create user</h2>
+	<h2>Loo kasutaja</h2>
   <form action="index.php?action=registreeri" method="post" >
   	<input name="username" type="email" placeholder="E-post" value="<?php if(isset($input['username'])){echo $input['username'];} ?>">
 	<span style="color:red" ><?php if(isset($errors['username'])){echo $errors['username'];} ?> </span><br><br>

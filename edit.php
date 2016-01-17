@@ -14,7 +14,7 @@ if(isset($_GET["edit_id"])){
 		// id oli aadressireal
 		// tahaks ühte rida kõige uuemaid andmeid kus id on $_GET["edit_id"]
 		
-		$data = getEditData($_GET["edit_id"]);
+		$data = get_Data($_GET["edit_id"]);
 		//var_dump($data);
 		
 		
