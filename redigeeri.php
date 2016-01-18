@@ -37,16 +37,22 @@ if(isset($msqly)){
 	}
 	$keyword = "";
 	$id= "";
-	
+	$time="";
+	$times=date("Y-m-d");
 	//aadressireal on keyword
-	if(isset($_GET["keyword"])){
+	if(isset($_GET["keyword"]) && isset($_GET["time"])){
 		
 		//otsin
 		$keyword = $_GET["keyword"];
-		$data_array = get_Data($keyword,$id);
+		$time = $_GET["time"];
+		$data_array = get_Data($keyword,$time);
 		
+	//}elseif(isset($_GET["time"])){
+		
+		//otsin
+		//$time = $_GET["time"];
+		//$data_array = search_time($time);
 	}else{
-		
 		// küsin kõik andmed
 		
 		//käivitan funktsiooni
@@ -56,16 +62,21 @@ if(isset($msqly)){
 	//echo $array_of_cars[0]->id." ".$array_of_cars[0]->plate;
 	
 ?>
-<h2>Tabel</h2>
+<h2>Otsing</h2>
 
 <form action="redigeeri.php" method="get" >
-	<input type="search" name="keyword" value="<?=$keyword;?>" >
+	<input type="search" name="keyword" placeholder="Otsitav mängija" value="<?=$keyword;?>" >
+	<input type="datetime" name="time" placeholder="aeg" value="<?=$times;?>" >
+	<input type="submit">
+</form>
+<form action="redigeeri.php" method="get" >
+	
 	<input type="submit">
 </form>
 <h2>Tabel</h2>
 <table border=1 >
 	<tr>
-		<th>id</th>
+		<th>ID</th>
 		<th>Nimi</th>
 		<th>Võite</th>
 		<th>Kaotus</th>
@@ -131,9 +142,7 @@ if(isset($msqly)){
 		echo "<td><span style='color:red' >".$ssamm."</span></td>";
 		echo "<td><span style='color:red' >".$ristit."</span></td>";
 		echo"</tr>";
-			}	
-		
-
+			}	echo"<a href='db_data.php'>Siit saada mänge lisada</a>";
 	?>
 
 

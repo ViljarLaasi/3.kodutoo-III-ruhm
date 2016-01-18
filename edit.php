@@ -14,7 +14,7 @@ if(isset($_GET["edit_id"])){
 		// id oli aadressireal
 		// tahaks ühte rida kõige uuemaid andmeid kus id on $_GET["edit_id"]
 		
-		$data = get_Data($_GET["edit_id"]);
+		$data = getEditData($_GET["edit_id"]);
 		//var_dump($data);
 		
 		
@@ -40,14 +40,14 @@ if(isset($_GET["edit_id"])){
 	<label for="name" >Nimi</label><br>
 	<input id="name" name="name" type="text" value="<?=$data->name;?>"><br><br>
 	<label for="voit">Värv</label><br>
-	<input id="voit" name="voit" type="text" value="<?=$data->voit;?>"><br><br>
+	<input id="voit" name="voit" type="number" value="<?=$data->voit;?>"><br><br>
 	<label for="kaotus">Kaotus</label><br>
-	<input id="kaotus" name="kaotus" type="text" value="<?=$data->kaotus;?>"><br><br>
+	<input id="kaotus" name="kaotus" type="number" value="<?=$data->kaotus;?>"><br><br>
 	<label for="vslamm">väike slämm</label><br>
-	<input id="vslamm" name="vslamm" type="text" value="<?=$data->vslamm;?>"><br><br>
+	<input id="vslamm" name="vslamm" type="number" value="<?=$data->vslamm;?>"><br><br>
 	<label for="ssamm">Suur slämm</label><br>
-	<input id="ssamm" name="ssamm" type="text" value="<?=$data->ssamm;?>"><br><br>
+	<input id="ssamm" name="ssamm" type="number" value="<?=$data->ssamm;?>"><br><br>
 	<label for="ristit">Kaks ristit</label><br>
-	<input id="ristit" name="ristit" type="text" value="<?=$data->ristit;?>"><br><br>
+	<input id="ristit" name="ristit" type="number" value="<?=$data->ristit;?>"><br><br>
 	<input type="submit" name="update_plate" value="Salvesta">
 </form>

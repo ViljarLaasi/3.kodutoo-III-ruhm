@@ -15,24 +15,13 @@ function delete_entry($id){
 		$mysqli->close();
 }
 		
-function update_entry($id, $name, $voit, $kaotus, $vslamm, $ssamm, $ristit){
-	
-			$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME) ; 
+
 		
-		$stmt = $mysqli->prepare("UPDATE users2 SET name=?, voit=?, kaotus=?, vslamm=?, ssamm=?, ristit=?, time=now() WHERE ID=?");
-		if(!$stmt){
-			die("juhtus viga update_entry".$mysqli->error);
-		}
-		$stmt->bind_param("ssssss", $input['name'], $input['voit'], $input['kaotus'], $input['vslamm'], $input['ssamm'], $input['ristit']);
-		if($stmt->execute()){
-			header("Location: redigeeri.php");
-		}
-			$stmt->close();
-		$mysqli->close();
-}
-		
-function get_Data($keyword=""){
-		$search = "%%";
+function get_Data($keyword="", $time){
+		//$time1 = "%".$time."%";
+		$times=date("Y-m-d");
+		$end = date("Y-m-d", strtotime($time));
+		//$search = "%%";
 		//kas otsisõna on tühi
 		//if($keyword == ""){
 			//ei otsi midagi
@@ -40,17 +29,19 @@ function get_Data($keyword=""){
 		//}else{
 			//otsin
 			//echo "Otsin ".$keyword;
+			
 			$search = "%".$keyword."%";
-		
+		//del IS NULL
 		
 			$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME) ; 				
-		$stmt = $mysqli->prepare("SELECT ID, name, voit, kaotus, vslamm, ssamm, ristit, time from users2 WHERE del IS NULL AND name LIKE ?  ");
+		$stmt = $mysqli->prepare("SELECT ID, name, voit, kaotus, vslamm, ssamm, ristit, Timestamp from users2 WHERE name LIKE ?  and (time between '".$end."' and '".$times."')and(del IS NULL)  ");
 		if(!$stmt){
 			die("juhtus viga get_Data".$mysqli->error);
 		}
 		$stmt->bind_param("s", $search);
 		$stmt->bind_result($id, $name, $voit, $kaotus, $vslamm, $ssamm, $ristit, $aeg);
 		$stmt->execute();
+		echo"Korras1";
 		
 		// tekitan tühja massiivi, kus edaspidi hoian objekte
 		$data_array = array();
@@ -120,7 +111,7 @@ function update_data($id, $name, $voit, $kaotus, $vslamm, $ssamm, $ristit){
 		
 		
 		$mysqli = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME) ;
-		$stmt = $mysqli->prepare("UPDATE users2 SET name=?, voit=?, kaotus=?, vslamm=?, ssamm=?, ristit=?, time=now() WHERE id=? ");
+		$stmt = $mysqli->prepare("UPDATE users2 SET name=?, voit=?, kaotus=?, vslamm=?, ssamm=?, ristit=?, time=now(), Timestamp=now() WHERE id=? ");
 		if(!$stmt){
 			die("juhtus viga get_Data".$mysqli->error);
 		}

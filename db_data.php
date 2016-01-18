@@ -24,6 +24,7 @@ if(isset($msqly)){
 $errors = array();
 $input = array();
 $show_form = False ; 
+$time=date("Y-m-d");
 if($_SERVER["REQUEST_METHOD"] == "POST") {
 	//defineerime array ja käime kogu tsükli läbi muutujan fild for loop.
 	foreach(array('name','voit', 'kaotus','vslamm','ssamm','ristit') as $field){
@@ -40,11 +41,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 		if(empty($errors)){
 			
 					//Salvestame AB'i
-					$stmt = $mysqli->prepare("INSERT INTO users2 (name, voit, kaotus, vslamm, ssamm, ristit) VALUES (?,?,?,?,?,?)");
+					$stmt = $mysqli->prepare("INSERT INTO users2 (name, voit, kaotus, vslamm, ssamm, ristit, time) VALUES (?,?,?,?,?,?,?)");
 					if(!$stmt){
 					die("juhtus viga".$mysqli->error);
 				}
-					$stmt->bind_param("ssssss", $input['name'], $input['voit'], $input['kaotus'], $input['vslamm'], $input['ssamm'], $input['ristit']);
+					$stmt->bind_param("sssssss", $input['name'], $input['voit'], $input['kaotus'], $input['vslamm'], $input['ssamm'], $input['ristit'],$time);
+					echo $time; 
 					$stmt->execute();
 					$stmt->close();
 				$_SESSION['lisa']=True;
